@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="header">
+            <h1>{{ header }}</h1>
+            <button v-if="editing" class="btn" @click="doEdit(false)">Cancel</button>
+                <button v-else class="btn btn-primary" @click="doEdit(true)" >Add items</button>
+        </div>
+        <form v-if="editing" class="add-item-form" @submit.prevent="saveItem()">
+            <input type="text" placeholder="add a new item" v-model="newItem">
+            <label><input type="checkbox" v-model="newItemPriority">High priority</label>
+            <button class="btn btn-primary" v-bind:disabled="newItem.length==0 || newItem.length>50">Save Item</button>
+        </form>
+        <p class="counter">{{characterCount}}/50</p>
+        <p class="error__message" v-if="characterCount>50">too much symbols in your input</p>
+        <ul>
+            <li v-for="item in reverseItems"
+                :key='item.id'
+                @click='togglePurchased(item)'
+                :class="{priority:item.highPriority, strikeout: item.purchased}"
+                >
+                {{ item.lable }}
+            </li>
+        </ul>
+        <p v-if="items.length==0">Nothig to see here</p>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+
+
+<!-- <div class="header"><h1>{{ header }}</h1>
+        <button v-if="editing" class="btn" @click="doEdit(false)">Cancel</button>
+        <button v-else class="btn btn-primary" @click="doEdit(true)" >Add items</button>
+    </div>
+    <form v-if="editing" class="add-item-form" @submit.prevent="saveItem()">
+        <input type="text" placeholder="add a new item" v-model="newItem">
+<lable><input type="checkbox" v-model="newItemPriority">High priority</lable>
+<button class="btn btn-primary" v-bind:disabled="newItem.length==0">Save Item</button>
+</form>
+<p class="counter">{{characterCount}}/200</p>
+<ul><li v-for="item in reverseItems" 
+:key='item.id'
+:class="{strikeout: item.purchased, priority:item.highPriority}"
+@click="togglePurchased(item)">{{ item.lable }}
+</li></ul>
+<p v-if="items.length ==0">Nothig to see here</p> -->
